@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@700&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
+
+
+.checkmark-icon {
+  font-size: 24px;
+}
+
+.checkmark.green .checkmark-icon {
+  color: green;
+}
+
+.checkmark.black .checkmark-icon {
+  color: black;
+}
