@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => {
   const [todos, setTodos] = useState([]);
 
@@ -11,6 +14,20 @@ const App = () => {
       .then((data) => setTodos(data))
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
+
+  const handleCompleteToggle = (id, completed) => {
+    if (completed) {
+      toast.warning('Your Task is Already Done', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } else {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        )
+      );
+    }
+  };
 
   return (
     <div className='my-5 mx-20 px-20 py-5 '>
@@ -26,17 +43,21 @@ const App = () => {
         <tbody className='text-center items-center'>
           {todos.map((todo) => (
             <tr key={todo.id}>
-              <td className="border-solid border-orange-400 lg:pl-24 md:pl-7 sm:pl-5 ">
-                <span className={` checkmark ${todo.completed ? 'green' : 'black'}`}>
+              <td className="border-solid border-orange-400 xl:pl-24 lg:pl-24 md:pl-8">
+                <span
+                  className={`checkmark ${todo.completed ? 'green' : 'black'}`}
+                  onClick={() => handleCompleteToggle(todo.id, todo.completed)}
+                >
                   <Icon icon="material-symbols:check" className="checkmark-icon" />
                 </span>
               </td>
               <td className="border-solid border-orange-400 ">{todo.id}</td>
               <td className="border-solid border-orange-400 ">{todo.title}</td>
-              <td className="border-solid border-orange-400 ">{todo.completed ? 'True = Done' : 'False = Pending'}</td>
+              <td className="border-solid border-orange-400 ">{todo.completed ? 'Done' : 'Pending'}</td>
             </tr>
           ))}
         </tbody>
+        <ToastContainer />
       </table>
     </div>
   )
